@@ -1,0 +1,7 @@
+export(amer)
+export(expand.call)
+export(getF)
+export(plotF)
+export(tp)
+export(tpU)
+import(lme4, Matrix)
