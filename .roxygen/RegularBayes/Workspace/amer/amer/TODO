@@ -1,0 +1,19 @@
+CITATION
+
+print: do smooths and ranefs separately
+
+2D: reparameterizeDesign: decompose into marginal smooths and interaction surface,  
+	example in vignette,
+	getF/plotF, 
+
+coef method
+
+varying coefficient models: ensure identifiability for f1(x1)*u + f2(x2)*u
+
+Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, takes forever if by has many levels
+
+make compatible to allcoef-branch
+
+change formula evaluation etc to sth like used in mboost/lm (ask Manuel?)
+
+add general GMRF-constructor (based on graph/adjacency matrix?) 

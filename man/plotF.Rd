@@ -1,9 +1,9 @@
 \name{plotF}
 \alias{plotF}
 \title{plot estimated function values + pointwise confidence intervals for an amer-Fit...}
-\usage{plotF(object, which, n=100, interval=RW, addConst=TRUE,
+\usage{plotF(object, which, n=100, interval="RW", addConst=TRUE,
     trans=I, level=0.9, sims=1000, auto.layout=TRUE, rug=TRUE,
-    legendPos=topright, ...)}
+    legendPos="topright", ...)}
 \description{plot estimated function values + pointwise confidence intervals for an amer-Fit}
 \value{invisibly returns the result of the \code{\link{getF}}-call used to do the plots}
 \author{Fabian Scheipl}

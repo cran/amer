@@ -1,0 +1,16 @@
+Package: amer
+Type: Package
+Title: Additive mixed models with lme4
+Version: 0.6.3
+Date: 2010-01-19
+Author: Fabian Scheipl <fabian.scheipl@stat.uni-muenchen.de>
+Maintainer: Fabian Scheipl <fabian.scheipl@stat.uni-muenchen.de>
+Depends: methods, lme4, Matrix, splines
+Description: Fitting generalized additive mixed models based
+    on the mixed model algorithm of lme4
+License: GPL
+LazyLoad: yes
+Collate: 'amer-class.R' 'amer.R'
+    'amerSetup.R' 'expand.call.R' 'expandBasis.R' 'expandMf.R'
+    'getF.R' 'indsF.R' 'plotF.R' 'set.mfrow.R'
+    'subAZ.R' 'subFcts.R' 'reparameterizeDesign.R' 'tp.R' 'tpU.R' 'bsp.R' 'tpU2d.R'

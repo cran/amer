@@ -1,9 +1,9 @@
 \name{expand.call}
 \alias{expand.call}
-\title{match.call with included presets/defaults}
+\title{returns a call in which all of the arguments which were supplied or have presets are specified by their full names and supplied or default values.}
 \usage{expand.call(definition, call=sys.call(sys.parent(1)),
     expand.dots=TRUE)}
-\description{returns a call in which all of the arguments which were supplied or have default values are specified by their full names and supplied or default values.}
+\description{returns a call in which all of the arguments which were supplied or have presets are specified by their full names and supplied or default values.}
 \value{An object of class call.}
 \author{Fabian Scheipl}
 \seealso{\code{\link[base]{match.call}}}

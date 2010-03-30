@@ -1,0 +1,19 @@
+export(amer)
+export(bsp)
+export(expand.call)
+export(getF)
+export(plotF)
+export(reparameterizeDesign)
+export(tp)
+export(tpU)
+export(tpU2d)
+
+## Generics for which we define new methods:
+importFrom("stats", predict)
+
+
+S3method(predict, amer)
+
+exportMethods("predict")
+
+exportClasses("amer")

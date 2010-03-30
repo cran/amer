@@ -71,7 +71,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 			#Cov(hat.beta, hat.b-b) for bias-adjusted empirical Bayes CIs (s. Ruppert/Wand(2003), Semiparametric Regression, p. 138 f.):
 			#use V = cov(hat.fixef, hat.ranef) = sigma.eps^2 (C'C + sigma.eps^2/sigma.b^2 D)^-1; C=[XZ]*sqrt(W), D = blockdiag(0, I_dim(b))
 			
-			C <- cBind(m@X[,indUnpen, drop=F], t(m@Zt[indPen,]))
+			C <- cBind(m@X[,indUnpen, drop=F], t(as.matrix(m@Zt[indPen,])))
 			if(length(m@var)) C <- C * sqrt(1/m@var)
 			
 			V <- crossprod(C)
@@ -89,12 +89,13 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		indUnpen <- if(addConst){
 					c(attr(terms[[i]],"indConst")[[j]], attr(terms[[i]],"indUnpen")[[j]])
 					} else attr(terms[[i]],"indUnpen")[[j]]	
-		cV <- chol(fctV(object, attr(terms[[i]],"indGrp")[[j]], 
-						attr(terms[[i]],"indPen")[[j]], indUnpen))
-		
+		cV <- as(chol(fctV(object, attr(terms[[i]],"indGrp")[[j]], 
+						attr(terms[[i]],"indPen")[[j]], indUnpen)), "sparseMatrix")
 		C <- as(cBind(base$X[[j]], base$Z[[j]]), "sparseMatrix")
 		sd <- apply(C, 1, function(x, cV){
-					return(sqrt((crossprod(cV%*%x))@x))	
+					ctc <- cV %*% as(x, "sparseMatrix")
+					return(sqrt(sum(ctc * ctc)))
+					#return(sqrt((crossprod(cV%*%as(x, "sparseMatrix")))@x))	
 				}, cV=cV)
 		
 		ci <- cbind(fhat - z*sd, fhat + z*sd)
@@ -119,7 +120,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		
 		if(is.null(newdata)){
 			grid <- TRUE
-			#FIXME: adapt this for 2d/3d-smooths!!
+			#FIXME: adapt this for 2d/3d-smooths
 			#get range of covariates + sequence of values
 			lim <- range(object@frame[, deparse(terms[[i]]$x)], na.rm=T) #FIXME: in amerSetup: this will fail if terms[[i]]$x was only in the workspace but not in the supplied data.frame for the original call.
 			newX <- seq(lim[1], lim[2], l=n)
@@ -166,6 +167,10 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 			#how many penalized spline functions per level of by
 			dimOneZ <- length(indZ)/length(lvls)
 			useZ <- 1:dimOneZ
+			if(grid) fullZ <- expandBasis(eval(terms[[i]], data), 
+						by = NULL,  
+						varying = eval(attr(base, "call")$varying, data),
+						bySetToZero = FALSE)$Z
 		}	
 		
 		nf <- ifelse(hasBy, length(lvls), 1)
@@ -182,8 +187,14 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 				#-append to Z extra columns for the random effects for base$X	 (+ a random intercept for the by-levels)
 				#-set columns in base$Z not relevant for the current by-level to 0
 				#-set base$X to zero
+
 				base$Z[[1]] <- base0$Z[[1]]
+				if(grid){
+					#fill up rows having artifical zeroes because of structure of newBy with values
+					base$Z[[1]][,useZ] <- fullZ[[1]]
+				}	
 				base$Z[[1]][,-useZ] <- 0
+				
 				#step to next block:
 				useZ <- useZ + dimOneZ
 				lvlInd <- rep(0, nlvl)
@@ -195,7 +206,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 					X[!use,] <- 0
 				} 
 				if(eval(terms[[i]]$diag)){
-					#lmer switches order of terms in X, need to permuite X-columns accordingly: 
+					#lmer switches order of terms in X, need to permute X-columns accordingly: 
 					uNames <-  unlist(unique(sapply(object@ST[attr(terms[[i]],"indGrp")[[1]][-1]], dimnames)))
 					X <- X[,uNames]
 				}
@@ -204,12 +215,12 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 				base$X[[1]] <- matrix(0, nrow=n, ncol=0)
 			} else {
 				ansInd <- j
-				if(!grid && hasBy){
-						#remove unnecessary rows from design
-						use <- eval(terms[[i]]$by, data)==lvls[j]
-						base$X[[ansInd]] <- base$X[[ansInd]][use,]
-						base$Z[[ansInd]] <- base$Z[[ansInd]][use,]
-				}
+				 #if(!grid && hasBy){
+				 #        #remove unnecessary rows from design
+				 #        use <- eval(terms[[i]]$by, data)==lvls[j]
+				 #        base$X[[ansInd]] <- base$X[[ansInd]][use,,drop=F]
+				 #        base$Z[[ansInd]] <- base$Z[[ansInd]][use,,drop=F]
+				 #}
 			}	
 		
 			if(addConst[i]){
@@ -242,9 +253,10 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 			dataJ <- if(grid){
 				data[,!(colnames(data)==deparse(terms[[i]]$by)), drop=F]
 			} else {
-				if(!grid && hasBy){
-					data[use,] 
-				} else data  
+				## if(!grid && hasBy){
+				##     data[use,] 
+				## } else 
+				data  
 			}	
 			ans[[indWhich]][[j]] <- data.frame(dataJ, fhat= as.matrix(fhat), ci)
 		}# end for j

@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bates and Maechler(2009{\natexlab{a}})]{Matrix}
+Douglas Bates and Martin Maechler.
+\newblock \emph{Matrix: Sparse and Dense Matrix Classes and Methods},
+  2009{\natexlab{a}}.
+\newblock URL \url{http://CRAN.R-project.org/package=Matrix}.
+\newblock R package version 0.999375-30.
+
+\bibitem[Bates and Maechler(2009{\natexlab{b}})]{lme4}
+Douglas Bates and Martin Maechler.
+\newblock \emph{lme4: Linear mixed-effects models using S4 classes},
+  2009{\natexlab{b}}.
+\newblock URL \url{http://CRAN.R-project.org/package=lme4}.
+\newblock R package version 0.999375-31.
+
+\bibitem[Berndt(1991)]{Berndt:1991}
+E.~Berndt.
+\newblock \emph{The Practice of Econometrics: Classical and Contemporary}.
+\newblock Addison - Wesley, 1991.
+
+\bibitem[Crainiceanu et~al.(2005)Crainiceanu, Ruppert, and
+  Wand]{Crainiceanu:2005}
+C.~Crainiceanu, D.~Ruppert, and M.P. Wand.
+\newblock {Bayesian analysis for penalized spline regression using WinBUGS}.
+\newblock \emph{Journal of Statistical Software}, 14\penalty0 (14):\penalty0
+  1--24, 2005.
+
+\bibitem[Eilers and Marx(1996)]{Eilers:Marx:1996}
+P.H.C. Eilers and B.D. Marx.
+\newblock Flexible smoothing with {B}-splines and penalties.
+\newblock \emph{Statistical Science}, 11\penalty0 (2):\penalty0 89--121, 1996.
+
+\bibitem[Grizzle and Allen(1969)]{Grizzle:1969}
+J.E. Grizzle and D.M. Allen.
+\newblock Analysis of growth and dose response curves.
+\newblock \emph{Biometrics}, 25:\penalty0 357--381, 1969.
+
+\bibitem[Kneib(2006)]{Kneib:06}
+T.~Kneib.
+\newblock \emph{Mixed model based inference in structured additive regression}.
+\newblock PhD thesis, LMU München, 2006.
+
+\bibitem[Ruppert et~al.(2003)Ruppert, Wand, and Carroll]{Semip:Regr}
+D.~Ruppert, M.P. Wand, and R.J. Carroll.
+\newblock \emph{Semiparametric Regression}.
+\newblock Cambridge University Press, 2003.
+
+\bibitem[Wood(2006{\natexlab{a}})]{Wood:2006}
+S.~Wood.
+\newblock \emph{Generalized Additive Models}.
+\newblock Chapman and Hall, 2006{\natexlab{a}}.
+
+\bibitem[Wood(2006{\natexlab{b}})]{mgcv}
+S.~Wood.
+\newblock \emph{mgcv: Multiple Smoothing Parameter Estimation by GCV or UBRE},
+  2006{\natexlab{b}}.
+\newblock URL \url{http://www.maths.bath.ac.uk/~sw283/}.
+
+\end{thebibliography}

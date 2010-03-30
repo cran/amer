@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Additive Models}{}
+\BOOKMARK [1][-]{section.2}{Mixed model representation of an additive model}{}
+\BOOKMARK [2][-]{subsection.2.1}{Reparameterization: Separating penalized and unpenalized function components}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Additive mixed models}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{Variability Estimation}{section.2}
+\BOOKMARK [1][-]{section.3}{Examples}{}
+\BOOKMARK [2][-]{subsection.3.1}{Generalized Additive Model}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Separate smooths for levels of a factor: Using the by-option}{section.3}
+\BOOKMARK [2][-]{subsection.3.3}{Subject- or cluster-specific smooths: Using the allPen-option}{section.3}
+\BOOKMARK [2][-]{subsection.3.4}{Varying coefficient models: Using the varying-option}{section.3}
+\BOOKMARK [2][-]{subsection.3.5}{Variability Bands: Using the RW- and MCMC-options}{section.3}
+\BOOKMARK [1][-]{section.4}{Implementation}{}
+\BOOKMARK [2][-]{subsection.4.1}{What's the point?}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Making lmer fit GAMMs}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Why use the TP-basis?}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Writing your own basis-generating function}{section.4}
+\BOOKMARK [1][-]{section.5}{Open Issues}{}

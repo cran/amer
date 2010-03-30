@@ -6,8 +6,9 @@ Models}, pdfauthor={Fabian Scheipl}]{hyperref}
 \usepackage[authoryear,round]{natbib}
 \bibliographystyle{plainnat}
 \usepackage{framed}
+\usepackage[all]{xy}
 
-% % instead of \usepackage{Sweave}
+% instead of \usepackage{Sweave}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{graphicx,ae,fancyvrb}
 \IfFileExists{upquote.sty}{\RequirePackage{upquote}}{}
@@ -59,9 +60,13 @@ Models}, pdfauthor={Fabian Scheipl}]{hyperref}
 %@
 
 
+%\VignetteIndexEntry{amer - GAMMs with lme4}
+
 
 \begin{document}
 
-addresses this problem by choosing a
-sufficient number of knots (e.\~g. 10-40)
+\xymatrix{ & {y\sim N(X\beta, \sigma^2)}\ar[dl] & \\
+{\beta \sim N(0,t^2)}\ar[ur] && {\sigma^2 \sim \Gamma(0,s^2)}\ar[ul] \\
+}
+
 \end{document}

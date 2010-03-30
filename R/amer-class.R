@@ -63,3 +63,95 @@ setMethod("summary", signature(object = "amer"),
 		})## summary()
 
 
+#if(FALSE){
+#	
+	setGeneric("predict",
+			function(object, ...)
+				standardGeneric("predict")
+	)
+	
+	
+	
+	
+	
+	## returns newdata with additional columns for:
+	##  - the components of the linear predictor X*beta, named as in fixef(object)
+	##  - the components of the random effects Z_i%*%b_i, named after the group levels
+	##  - the smooths, named as in names(objects@smooths)  
+	##  - column "fit" contains:
+	##		if type="response": the fitted values on the scale of the response;
+	##		if type="linpred": sum of X%*%beta + Z %*% b + \sum f_s
+	## if newdata contains additional levels of grouping factors not present in the original model, 
+	##	these are assigned random effects of zero.
+	setMethod("predict", signature(object = "amer"),
+			function(object, newdata = object@frame, type=c("response", "linpred", "terms"), ...)
+			{
+				
+				type <- match.arg(type)
+				objcall <- object@call
+				objcall$data <-  newdata
+				newObj <- do.call("amerSetup", as.list(objcall)[-1])$m 
+				
+				#find indices for fixed/random effects not involved in smooths
+				indFixed <- (1:ncol(newObj$fr$X))[-unlist(sapply(object@smooths, function(sm) attr(sm, "indUnpen")))] 
+				indSmoo <- unlist(sapply(object@smooths, function(sm) attr(sm, "indGrp")))  
+				indRan <- (1:length(newObj$FL$fl))[!(names(newObj$FL$fl) %in% names(object@flist)[indSmoo])] 
+				
+				#X*beta
+				if(length(indFixed)){
+					fixed <- t(t(newObj$fr$X[,indFixed, drop=F]) * fixef(object)[indFixed, drop=F])
+					colnames(fixed) <- names(fixef(object)[indFixed])
+				} else fixed <- NULL 
+				
+				
+				#Z%*%b
+				if(length(indRan)){
+					random <- sapply(indRan, function(i){
+								thisName <- names(newObj$FL$fl)[attr(newObj$FL$fl, "assign")[i]]
+								thisInd <- which(names(newObj$FL$fl) == thisName)
+								useZRows <- (newObj$FL$fl[[thisName]] %in% levels(object@flist[[thisName]]))
+								useZCols <- (levels(newObj$FL$fl[[thisName]]) %in% levels(object@flist[[thisName]]))
+								useBCols <- (levels(object@flist[[thisName]]) %in% levels(newObj$FL$fl[[thisName]]))
+								##FIXME: this works only if there are either: 
+								## - levels of grouping in newdata that are not in orig data
+								## - levels of grouping in orig data that are not in newdata
+								## - neither, but NOT for both...
+								tmp <- rep(0, nrow(newdata))
+								tmp[useZRows] <- as.numeric(t(newObj$FL$trms[[thisInd]]$Zt)[useZRows, useZCols] %*% 
+												unlist(ranef(object)[[thisName]])[useBCols])
+								tmp
+							}) 
+					colnames(random) <- names(newObj$FL$fl)[indRan]
+				} else random <- NULL
+				
+
+				fctList <- getF(object, newdata=newdata, addConst=FALSE)
+				
+				smooth <- sapply(1:length(fctList), 
+						function(i){
+							if(length(fctList[[i]]) == 1) return(fctList[[i]][[1]]$fhat)
+							else { #separate by level of by-variable
+								ff <- sapply(fctList[[i]], function(x) x$fhat)
+								grp <- fctList[[i]][[1]][, deparse(object@smooths[[i]]$by)]
+								levels(grp) <- 1:nlevels(grp)
+								return(ff[cbind(1:length(grp),grp)])
+							}
+						} ) 			
+				
+				
+				
+				fits <- do.call(cbind, list(fixed, random, smooth))
+				
+				res <- cbind(newdata, fits)
+				if(type=="terms") return(res)
+				else {
+					pred <- rowSums(fits)
+					if(type=="response" && !is.null(object@call$family)) {
+						linkinv <- eval(parse(text = paste(object@call$family,"()", sep = "")))$linkinv
+						pred <- do.call(linkinv, list(eta = pred))
+					}
+					return(cbind(res, fit = pred))
+				}
+			}
+	)## predict() 
+#}

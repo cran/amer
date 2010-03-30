@@ -8,7 +8,7 @@
 These leave out the uncertainty associated with the variance component estimates. 
 MCMC-intervals based on results from \code{\link[lme4]{mcmcsamp}} don't seem to be very reliable yet and should be used with caution, especially for more complex models.}
 \value{a list with one \code{data.frame} for each function, giving \code{newdata} or the values of the generated grid plus the fitted values (and confidence/HPD intervals)
-if MCMC-intervals were rquested, the listhas an attribute "mcmc" containing the result of the call to \code{\link[lme4]{mcmcsamp}}, a \code{\link[lme4]{merMCMC-class}} object.}
+if MCMC-intervals were rquested, the list has an attribute "mcmc" containing the result of the call to \code{\link[lme4]{mcmcsamp}}, a \code{\link[lme4]{merMCMC-class}} object.}
 \author{Fabian Scheipl}
 \seealso{\code{\link{plotF}},  \code{tests/optionsTests.r} and the vignette for examples}
 \arguments{\item{object}{a fitted additive (mixed) model of class \code{\link{amer-class}}}

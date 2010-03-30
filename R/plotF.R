@@ -20,7 +20,7 @@
 plotF <- function(object, which, n=100, interval = "RW", addConst = TRUE, trans=I,  
 		level = 0.9, sims = 1000, auto.layout = TRUE, rug = TRUE, legendPos="topright", ...)
 {
-# FIXME: add option for centering function estimates?
+# FIXME: add option for centering function estimates at zero/ anchoring at mean of all other covariates?
 # FIXME: valid confints for trans? 	
 	terms <- object@smooths
 	if(missing(which)) which <- seq_along(terms)
@@ -66,7 +66,7 @@ plotF <- function(object, which, n=100, interval = "RW", addConst = TRUE, trans=
 		}
 		do.call(plot, c(list(x=-2*xlim[1]-10, y=0, ylim = ylim, xlim = xlim, ylab="", xlab=colnames(x[[1]])[1]), dots))
 		do.call(matlines, c(list(x = cov, y = fhat, col=1:length(x), lty=1), dots))
-		if(interval) for(i in 1:length(ci)) do.call(matlines, c(list(x=cov[,i], y=ci[[i]], col=i, lty=3),dots))
+		if(interval) for(i in 1:length(ci)) do.call(matlines, c(list(x=cov[,i], y=ci[[i]], col=i, lty=2),dots))
 		if(legendPos != "none" && length(x)>1){
 			do.call(legend,c(list(x=legendPos, legend=names(x), lty=1, col=1:length(x)),dots))
 		}	

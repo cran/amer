@@ -1,0 +1,17 @@
+\contentsline {section}{\numberline {1}Additive Models}{3}{section.1}
+\contentsline {section}{\numberline {2}Mixed model representation of an additive model}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Reparameterization: Separating penalized and unpenalized function components}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Additive mixed models}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Variability Estimation}{7}{subsection.2.3}
+\contentsline {section}{\numberline {3}Examples}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Generalized Additive Model}{8}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Separate smooths for levels of a factor: Using the \texttt {by}-option}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Subject- or cluster-specific smooths: Using the \texttt {allPen}-option}{15}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Varying coefficient models: Using the \texttt {varying}-option}{18}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Variability Bands: Using the \texttt {RW}- and \texttt {MCMC}-options}{21}{subsection.3.5}
+\contentsline {section}{\numberline {4}Implementation}{24}{section.4}
+\contentsline {subsection}{\numberline {4.1}What's the point?}{24}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Making \texttt {\relax \fontsize {10.95}{13.6}\selectfont \abovedisplayskip 11\p@ plus3\p@ minus6\p@ \abovedisplayshortskip \z@ plus3\p@ \belowdisplayshortskip 6.5\p@ plus3.5\p@ minus3\p@ \def \leftmargin \leftmargini \parsep 5\p@ plus2.5\p@ minus\p@ \topsep 10\p@ plus4\p@ minus6\p@ \itemsep 5\p@ plus2.5\p@ minus\p@ {\leftmargin \leftmargini \topsep 9\p@ plus3\p@ minus5\p@ \parsep 4.5\p@ plus2\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip {lmer}} fit GAMMs}{24}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Why use the TP-basis?}{26}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Writing your own basis-generating function}{26}{subsection.4.4}
+\contentsline {section}{\numberline {5}Open Issues}{31}{section.5}

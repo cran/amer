@@ -1,6 +1,8 @@
 \contentsline {section}{\numberline {1}Additive Models}{3}{section.1}
 \contentsline {section}{\numberline {2}Mixed model representation of an additive model}{5}{section.2}
-\contentsline {subsection}{\numberline {2.1}Variability Estimation}{7}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.1}Reparameterization: Separating penalized and unpenalized components of smooth terms}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Additive mixed models}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Variability Estimation}{7}{subsection.2.3}
 \contentsline {section}{\numberline {3}Examples}{8}{section.3}
 \contentsline {subsection}{\numberline {3.1}Generalized Additive Model}{8}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Separate smooths for levels of a factor: Using the \texttt {by}-option}{11}{subsection.3.2}
@@ -10,6 +12,6 @@
 \contentsline {section}{\numberline {4}Implementation}{24}{section.4}
 \contentsline {subsection}{\numberline {4.1}What's the point?}{24}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Making \texttt {\relax \fontsize {10.95}{13.6}\selectfont \abovedisplayskip 11\p@ plus3\p@ minus6\p@ \abovedisplayshortskip \z@ plus3\p@ \belowdisplayshortskip 6.5\p@ plus3.5\p@ minus3\p@ \def \leftmargin \leftmargini \parsep 5\p@ plus2.5\p@ minus\p@ \topsep 10\p@ plus4\p@ minus6\p@ \itemsep 5\p@ plus2.5\p@ minus\p@ {\leftmargin \leftmargini \topsep 9\p@ plus3\p@ minus5\p@ \parsep 4.5\p@ plus2\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip {lmer}} fit GAMMs}{24}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Justification for using the TP-Basis}{26}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.3}Why use the TP-basis?}{26}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}Writing your own basis-generating function}{26}{subsection.4.4}
-\contentsline {section}{\numberline {5}Open Issues}{30}{section.5}
+\contentsline {section}{\numberline {5}Open Issues}{31}{section.5}

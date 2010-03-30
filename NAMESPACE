@@ -1,7 +1,20 @@
-export(amer)
-export(expand.call)
-export(getF)
-export(plotF)
-export(tp)
-export(tpU)
-import(lme4, Matrix)
+
+importFrom(nlme, BIC)
+importFrom(stats, predict)
+import(Matrix)
+import(lme4)
+
+
+export(
+	amer,
+	bsp,
+	expand.call,
+	getF,
+	plotF,
+	reparameterizeDesign,
+	tp, tpU, tpU2d
+	)
+
+exportClasses(amer)
+
+exportMethods(predict)

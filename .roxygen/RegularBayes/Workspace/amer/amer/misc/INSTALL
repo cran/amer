@@ -1,0 +1,4 @@
+install.packages("Z:/RegularBayes/Workspace/amer/amer_0.6.3.zip")
+install.packages("~/tmp/amer_0.6.2.zip")
+install.packages("~/tmp/amer_0.6.2.tar.gz", lib="~/RLibs/UNIX")
+install.packages("~/tmp/amer_0.6.2.tar.gz")
