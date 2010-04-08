@@ -7,7 +7,7 @@ C:\PROGRA~1\MIKTEX~1.8\miktex\bin\texi2dvi.exe --pdf Z:\RegularBayes\Workspace\a
 
 sourceDir("Z:/RegularBayes/Workspace/amer/amer/R")
 
-install.packages("Z:/RegularBayes/Workspace/amer/amer_0.6.4.zip")
+install.packages("Z:/RegularBayes/Workspace/amer/amer_0.6.6.zip")
 install.packages("~/tmp/amer_0.6.2.zip")
 install.packages("~/tmp/amer_0.6.2.tar.gz", lib="~/RLibs/UNIX")
 install.packages("~/tmp/amer_0.6.2.tar.gz")

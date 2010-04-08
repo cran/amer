@@ -28,12 +28,7 @@ function(formula, data, family, REML, control = list(),
 	n.f <- length(f.ind)
 	
 	if(n.f){
-		fixed.formula <- as.character(lme4:::nobars(formula)[3])
-		
-		if(!is.null(bars <- lme4:::findbars(formula))){
-			random.formula <- paste("(", bars, ")", collapse=" + ")
-			rhs <- paste(fixed.formula, random.formula, sep=" + ")
-		} else rhs <- fixed.formula
+		rhs <- safeDeparse(formula[[3]])
 		
 		fctterm <- fct <- vector(mode="list", length= n.f)
 		

@@ -49,7 +49,7 @@ function(rhs, fctterm, fct, fr)
 								sep =" + ")
 					}
 				}
-		rhs <- sub(deparse(fctterm[[i]]), replacement, rhs, fixed=T)
+		rhs <- sub(safeDeparse(fctterm[[i]]), replacement, rhs, fixed=T)
 	}
 	return(rhs)
 }

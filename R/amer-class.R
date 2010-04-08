@@ -69,11 +69,6 @@ setMethod("summary", signature(object = "amer"),
 			function(object, ...)
 				standardGeneric("predict")
 	)
-	
-	
-	
-	
-	
 	## returns newdata with additional columns for:
 	##  - the components of the linear predictor X*beta, named as in fixef(object)
 	##  - the components of the random effects Z_i%*%b_i, named after the group levels
@@ -89,18 +84,60 @@ setMethod("summary", signature(object = "amer"),
 				
 				type <- match.arg(type)
 				objcall <- object@call
-				objcall$data <-  newdata
-				newObj <- do.call("amerSetup", as.list(objcall)[-1])$m 
 				
-				#find indices for fixed/random effects not involved in smooths
-				indFixed <- (1:ncol(newObj$fr$X))[-unlist(sapply(object@smooths, function(sm) attr(sm, "indUnpen")))] 
+				
+				#add column for reponse if missing and pad factors s.t. they have more than one level
+				# (lmerSetup aborts if not)
+				padding <- NULL
+				addResp <- FALSE 
+				if(!((response <- deparse(object@call$formula[[2]])) %in% colnames(newdata))){
+					args <-list(newdata, rep(c(0,1), l=nrow(newdata)))
+					names(args) <- c("", response)
+					newdata <- do.call(cbind, args)
+					addResp <- TRUE
+				} 
+				if(any(isFactor <- sapply(as.list(newdata),is.factor))){
+					if(any(constant <- 
+									sapply(as.list(newdata[, isFactor, drop=FALSE]), 
+											function(x){
+												length(unique(x)) == 1
+											}))){
+						padding <- newdata[1,]
+						for(f in which(isFactor)[constant]){
+							lvls <- levels(newdata[, f])
+							use <- lvls[lvls != unique(newdata[, f])][1]
+							padding[,f] <- use
+						}
+						newdata <- rbind(newdata, padding)
+					}
+				}
+				objcall$data <-  newdata
+				
+				newObj <- do.call("amerSetup", as.list(objcall)[-1])$m
+
+				#add columns for dropped levels & reorder
+				if(any(dropped <- !(names(object@fixef) %in% names(newObj$fr$fixef)))){
+					padCols <- matrix(0, nrow=nrow(newdata), ncol = sum(dropped))
+					newObj$fr$X <- cbind(newObj$fr$X, padCols)
+				}
+				colnames(newObj$fr$X) <- c(names(newObj$fr$fixef), names(object@fixef)[dropped])
+				newObj$fr$X <- newObj$fr$X[, names(fixef(object)), drop=FALSE]
+				
+				#find indices for fixed/random/smooth effects
+				indFixed <- (1:ncol(newObj$fr$X))[-unlist(sapply(object@smooths, function(sm) {
+											return(
+													ifelse(eval(sm$allPen),
+															ncol(newObj$fr$X)+1,
+															attr(sm, "indUnpen"))
+											)
+										}))] 
 				indSmoo <- unlist(sapply(object@smooths, function(sm) attr(sm, "indGrp")))  
 				indRan <- (1:length(newObj$FL$fl))[!(names(newObj$FL$fl) %in% names(object@flist)[indSmoo])] 
 				
 				#X*beta
 				if(length(indFixed)){
 					fixed <- t(t(newObj$fr$X[,indFixed, drop=F]) * fixef(object)[indFixed, drop=F])
-					colnames(fixed) <- names(fixef(object)[indFixed])
+					colnames(fixed) <- paste("lp.",names(fixef(object)[indFixed]),sep="")
 				} else fixed <- NULL 
 				
 				
@@ -117,11 +154,11 @@ setMethod("summary", signature(object = "amer"),
 								## - levels of grouping in orig data that are not in newdata
 								## - neither, but NOT for both...
 								tmp <- rep(0, nrow(newdata))
-								tmp[useZRows] <- as.numeric(t(newObj$FL$trms[[thisInd]]$Zt)[useZRows, useZCols] %*% 
-												unlist(ranef(object)[[thisName]])[useBCols])
+								tmp[useZRows] <- as.numeric(t(newObj$FL$trms[[thisInd]]$Zt)[useZRows, useZCols, drop=FALSE] %*% 
+												unlist(ranef(object)[[thisName]])[useBCols, drop=FALSE])
 								tmp
 							}) 
-					colnames(random) <- names(newObj$FL$fl)[indRan]
+					colnames(random) <- paste("blup.",names(newObj$FL$fl)[indRan], sep="")
 				} else random <- NULL
 				
 
@@ -137,12 +174,17 @@ setMethod("summary", signature(object = "amer"),
 								return(ff[cbind(1:length(grp),grp)])
 							}
 						} ) 			
-				
-				
+				colnames(smooth) <- names(fctList) 
 				
 				fits <- do.call(cbind, list(fixed, random, smooth))
 				
 				res <- cbind(newdata, fits)
+				if(addResp) res <- res[, colnames(res) != response]
+				if(!is.null(padding)) {
+					res <- res[-nrow(res), ]
+					fits <- fits[-nrow(fits), ]
+				}	
+				
 				if(type=="terms") return(res)
 				else {
 					pred <- rowSums(fits)

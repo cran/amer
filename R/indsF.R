@@ -47,7 +47,7 @@ function(m, fct, fctterm){
 					names(attr(fctterm[[i]], "indUnpen")[[j]]) <- colnames(fct[[i]]$X[[j]])
 				}	
 				#add by-level intercept:
-				indBy <- grep(paste("^",deparse(attr(fct[[i]],"call")$by), levels(by)[j],"$", sep=""), names(m@fixef))
+				indBy <- grep(paste("^",safeDeparse(attr(fct[[i]],"call")$by), levels(by)[j],"$", sep=""), names(m@fixef))
 				indBy <- indBy[!(indBy %in% attr(fctterm[[i]], "indUnpen")[[j]])]
 				attr(fctterm[[i]], "indConst")[[j]] <- c(indIntercept, indBy)
 			}

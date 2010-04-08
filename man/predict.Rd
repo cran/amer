@@ -21,17 +21,21 @@
 \value{
   the \code{data.frame} supplied in \code{newdata} with additional columns containing:
   
-  the components of the linear predictor \eqn{X\beta}, named as in \code{fixef(object)},
+  the components of the linear predictor \eqn{X\beta}, named as in \code{fixef(object)} (prefixed by \code{lp.}),
   
-  the components of the random effects \eqn{Z_i b_i}, named after the group levels,
+  the components of the random effects \eqn{Z_i b_i}, named after the grouping factors (prefixed by \code{blup.}),
   
   the smooth terms, named as in \code{names(objects@smooths)}.
   
   If \code{type="response"} the \code{"fit"} column contains the fitted values on the scale of the response,
   if \code{type="linpred"} the \code{"fit"} column contains the linear predictor (i.e. fixed + random + smooth effects).
-  
+}  
+\note{ 
   If \code{newdata} contains additional levels of grouping factors not present in the original data, 
   these are assigned random effects of zero.
+  
+  The function doesn't check whether the new data supplied for the smooth terms is within the range of the original data. 
+  Extrapolating spline fits can be dangerous.
 }
 \author{Fabian Scheipl}
 

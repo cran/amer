@@ -17,7 +17,7 @@ function(definition=NULL, call=sys.call(sys.parent(1)), expand.dots = TRUE)
 	# ans <- c(ans1, ans)
 		
 	#possible args:
-	frmls <- formals(deparse(ans[[1]]))
+	frmls <- formals(safeDeparse(ans[[1]]))
 	#remove formal args with no presets:
 	frmls <- frmls[!sapply(frmls, is.symbol)]
 	

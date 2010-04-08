@@ -36,7 +36,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 	if(is.character(which)) {
 		which <- match(which, names(terms))
 		if(any(nas <- is.na(which))) 
-			warning("entry ", paste(which[nas], collapse=", "), " in 'which' did not match any function names in ", deparse(object) ,".")
+			warning("entry ", paste(which[nas], collapse=", "), " in 'which' did not match any function names in ", safeDeparse(object) ,".")
 		which <- which[!nas]
 	}
 	if(length(addConst) != length(which)) addConst <- rep(addConst, length=length(which))
@@ -113,7 +113,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		# set up / check newdata
 		################################
 		if(!is.null(terms[[i]]$by)){
-			lvls <- levels(object@frame[, deparse(terms[[i]]$by)])#FIXME: in amerSetup: this will fail if terms[[i]]$x was only in the workspace but not in the supplied data.frame for the original call.
+			lvls <- levels(object@frame[, safeDeparse(terms[[i]]$by)])#FIXME: in amerSetup: this will fail if terms[[i]]$x was only in the workspace but not in the supplied data.frame for the original call.
 			hasBy <- TRUE
 		} else hasBy <-FALSE	
 		hasVarying <- !is.null(terms[[i]]$varying)
@@ -122,28 +122,28 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 			grid <- TRUE
 			#FIXME: adapt this for 2d/3d-smooths
 			#get range of covariates + sequence of values
-			lim <- range(object@frame[, deparse(terms[[i]]$x)], na.rm=T) #FIXME: in amerSetup: this will fail if terms[[i]]$x was only in the workspace but not in the supplied data.frame for the original call.
+			lim <- range(object@frame[, safeDeparse(terms[[i]]$x)], na.rm=T) #FIXME: in amerSetup: this will fail if terms[[i]]$x was only in the workspace but not in the supplied data.frame for the original call.
 			newX <- seq(lim[1], lim[2], l=n)
 			if(hasBy){
 				newBy <- factor(rep(lvls, length=n), labels=lvls)
 				data <- data.frame(newX, newBy)
-				colnames(data) <- c(deparse(terms[[i]]$x), deparse(terms[[i]]$by))
+				colnames(data) <- c(safeDeparse(terms[[i]]$x), safeDeparse(terms[[i]]$by))
 			} else {
 				data <- data.frame(newX)
-				colnames(data) <- deparse(terms[[i]]$x)
+				colnames(data) <- safeDeparse(terms[[i]]$x)
 			}
 			if(hasVarying){
 				#varying covariate is set value of varying
 				data <- cbind(data, rep(varying, nrow(data)))
-				colnames(data)[NCOL(data)] <- deparse(terms[[i]]$varying)
+				colnames(data)[NCOL(data)] <- safeDeparse(terms[[i]]$varying)
 			}
 		} else {
 			grid <- FALSE
 			data <- newdata
 			n <- nrow(newdata)
-			vnames <- deparse(terms[[i]]$x)
-			if(hasBy) vnames <- c(vnames,deparse(terms[[i]]$by))
-			if(hasVarying) vnames <- c(vnames, deparse(terms[[i]]$varying))
+			vnames <- safeDeparse(terms[[i]]$x)
+			if(hasBy) vnames <- c(vnames,safeDeparse(terms[[i]]$by))
+			if(hasVarying) vnames <- c(vnames, safeDeparse(terms[[i]]$varying))
 			if(any(nas <- is.na(match(vnames, colnames(data))))) 
 				stop("variable ", paste(vnames[nas], collapse=", "), "not found in given data.")
 			data <- data[, colnames(data) %in% vnames, drop=F]
@@ -175,7 +175,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		
 		nf <- ifelse(hasBy, length(lvls), 1)
 		ans[[indWhich]] <- vector(mode="list", length = nf)
-		names(ans[[indWhich]]) <-  if(hasBy) paste(deparse(terms[[i]]$by), lvls, sep="") else names(base$X)
+		names(ans[[indWhich]]) <-  if(hasBy) paste(safeDeparse(terms[[i]]$by), lvls, sep="") else names(base$X)
 		for(j in seq_along(ans[[indWhich]])){
 		#################################
 		#calculate fits and cis
@@ -225,7 +225,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		
 			if(addConst[i]){
 			#add columns for constant terms to X, append indUnpen:	
-				byColumn <-if(hasBy && paste(deparse(terms[[i]]$by),lvls[j],sep="") %in% names(object@fixef)){
+				byColumn <-if(hasBy && paste(safeDeparse(terms[[i]]$by),lvls[j],sep="") %in% names(object@fixef)){
 				 				 rep(1, nrow(base$X[[ansInd]]))
 							} else numeric(0) 
 				base$X[[ansInd]] <- cBind(byColumn, base$X[[ansInd]])	
@@ -251,7 +251,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 				ci <- matrix(NA, nrow=nrow(base$X[[ansInd]]), ncol=0)
 			}
 			dataJ <- if(grid){
-				data[,!(colnames(data)==deparse(terms[[i]]$by)), drop=F]
+				data[,!(colnames(data)==safeDeparse(terms[[i]]$by)), drop=F]
 			} else {
 				## if(!grid && hasBy){
 				##     data[use,] 

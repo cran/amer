@@ -1,21 +1,32 @@
-CITATION
+Minor:
 
 print: do smooths and ranefs separately
-
-2D: reparameterizeDesign: decompose into marginal smooths and interaction surface,  
-	example in vignette,
-	getF/plotF, 
 
 coef method
 
 varying coefficient models: ensure identifiability for f1(x1)*u + f2(x2)*u
 
-Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, takes forever if by has many levels
+by-terms: check for/enforce treatment contasts
 
-make compatible to allcoef-branch
+Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, takes forever if by has many levels
 
 change formula evaluation etc to sth like used in mboost/lm (Manuel?)
 
 add general GMRF-constructor (based on graph/adjacency matrix?) 
 
-FIX NAMESPACE, add predict-generic
+add Jan's ordinal predictor penalization (/Misc/linearDummies.r)
+
+put all info on basisGenerators in a single helpfile?
+
+################
+
+MAJOR:
+
+2D: reparameterizeDesign: decompose into marginal smooths and interaction surface,  
+	example in vignette,
+	getF/plotF, 
+
+class Term with Subclasses Smooth(1D/2D), Linear, Random (Spatial) --> predict, plot methods
+
+make compatible to lme4a-branch
+   

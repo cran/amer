@@ -50,9 +50,35 @@ function(formula, data, family = NULL, REML = TRUE, control = list(),
 
 	ans <- new("amer", m, smooths = fctterm)
 	ans@call <- expCall
+	ans@call$formula <- eval(ans@call$formula)
+	
 	# FIXME: see amerSetup: enforce intercept or not?
 	###ans@call$formula <- update(formula, .~.+1) #clean up, add intercept to formula
 	ans@frame <- merge(ans@frame, data) #add original variables back to frame for prediction etc.
+	
+	#update formula s.t. it contains the actual specification of the smooth terms
+	ans@call$formula <- {
+		newterms <- lapply(fctterm, function(x) safeDeparse(x))
+		#find smooth terms
+		tf <- terms.formula(ans@call$formula, specials = basisGenerators)
+		f.ind <- unlist(attr(tf,"specials"))
+		n.f <- length(f.ind)
+		#extract old smooth terms
+		oldterms <- rep("", n.f)
+		for(i in 1:n.f) oldterms[i] <- safeDeparse(attr(tf,"variables")[[f.ind[i]+1]])
+		
+		# update formula (has to be this ugly s.t. we don't 
+		# run against the nchar limit in parse)
+		# new <- paste(".~.-", 
+		##         paste(oldterms, collapse = "-"), "+",
+		##         paste(newterms, collapse = "+"))
+		## update.formula(ans@call$formula, new)
+		new <- update.formula(ans@call$formula, 
+				paste(".~.-", paste(oldterms, collapse = "-")))
+		formula(
+				paste(c(safeDeparse(new), "+",paste(newterms, collapse = "+")), collapse="") 
+		)
+	}
 	
 	return(ans)
 }

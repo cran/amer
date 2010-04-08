@@ -27,7 +27,7 @@ plotF <- function(object, which, n=100, interval = "RW", addConst = TRUE, trans=
 	if(is.character(which)) {
 		which <- match(which, names(terms))
 		if(any(nas <- is.na(which))) 
-			warning("entry ", paste(which[nas], collapse=", "), " in 'which' did not match any function names in ", deparse(object) ,".")
+			warning("entry ", paste(which[nas], collapse=", "), " in 'which' did not match any function names in ", safeDeparse(object) ,".")
 		which <- which[!nas]
 	}
 	if(length(legendPos) != length(which)) legendPos <- rep(legendPos, length=length(which))
@@ -77,7 +77,7 @@ plotF <- function(object, which, n=100, interval = "RW", addConst = TRUE, trans=
 		plot1F(res[[i]], interval = !(interval=="NONE")&&!allPen[i], legendPos = legendPos[i], ...)
 		if(is.null(dots$ylab)){
 			ylab <- ifelse(addConst[i], paste(names(res)[i], "+ const"), names(res)[i])
-			if(any(trans(-2:2)!= (-2:2))) ylab <- paste(deparse(match.call()$trans),"(",ylab,")",sep="")
+			if(any(trans(-2:2)!= (-2:2))) ylab <- paste(safeDeparse(match.call()$trans),"(",ylab,")",sep="")
 		} else{
 			ylab <-dots$ylab
 			dots <- dots[names(dots)!="ylab"]
@@ -88,9 +88,9 @@ plotF <- function(object, which, n=100, interval = "RW", addConst = TRUE, trans=
 				rug(object@frame[,colnames(res[[i]][[1]])[1]], ...)
 			} else {
 				nlvls <- length(res[[i]]) 
-				lvls <- levels(object@frame[, deparse(object@smooths[[i]]$by)])
+				lvls <- levels(object@frame[, safeDeparse(object@smooths[[i]]$by)])
 				for(j in 1:nlvls){
-					use <- object@frame[,deparse(object@smooths[[i]]$by)] == lvls[j]
+					use <- object@frame[,safeDeparse(object@smooths[[i]]$by)] == lvls[j]
 					rug(object@frame[use, colnames(res[[i]][[1]])[1]], col =j, ...)
 				}	
 			}	

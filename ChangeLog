@@ -1,11 +1,16 @@
-0.6.3
+0.6.6
+Apr 14 2010
+- fixed bugs in predict (no prediction if constant factors in newdata, knots not correctyly handled)
+- added safeDeparse
 
-Mar 29 2010
-- added predict function (not as generic)
-- fixed ciRW for new Matrix
-
-0.6.5
+0.6.5 (=0.6.4)
 Apr 5 2010
 - added import BIC
 - fixed vignette
 - changed to quantile-based knots as default
+
+
+0.6.3
+Mar 29 2010
+- added predict function (not as generic)
+- fixed ciRW for new Matrix

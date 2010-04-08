@@ -28,7 +28,7 @@
 	 see \code{\link[lme4]{mer-class}} for a description of methods for \code{mer}-objects
 	 
 	 \describe{
-    \item{predict}{\code{signature(object = "mer")}  See \code{\link{predict}}}
+    \item{predict}{\code{signature(object = "mer")}  See \code{\link[amer]{predict}}}
      } 
 }
 \seealso{

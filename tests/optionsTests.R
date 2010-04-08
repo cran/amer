@@ -4,7 +4,7 @@
 ###############################################################################
 library(amer)
 
-pdf("optionsTests.pdf")
+#pdf("optionsTests.pdf")
 
 
 ###############################
@@ -30,6 +30,7 @@ lines(x, f, col = "grey")
 f01.MCMC <- getF(test01, n = 50, interval = "MCMC")
 print(xyplot(attr(f01.MCMC, "mcmc")))
 
+#sanity checks for MCMC:
 f01.MCMCData <- as.data.frame(attr(f01.MCMC, "mcmc"))
 unlist(c(fixef(test01), test01@ST, lme4:::sigma(test01)))
 apply(f01.MCMCData, 2, quantile, probs = c(0.1, 0.25, 
@@ -151,7 +152,7 @@ d <- data.frame(y, x, z)
 (test3 <- amer(y ~ tp(x, k = 5, varying = z), data = d))
 f3 <- plotF(test3, int = "RW")
 f3 <- plotF(test3, int = "MCMC")
-lines(d$x, f1, col = 2)
+lines(x, f1, col = 2)
 f32 <- getF(test3, newdata = d, int = "RW")
 range(f - fitted(test3))
 
@@ -169,7 +170,7 @@ x <- sort(runif(n, -1, 1))
 f <- 2 * (scale(dnorm(x, m = -1, sd = 0.5)) + scale(dnorm(x, 
 							m = 0.5, sd = 0.5)))
 y <- rpois(n, exp(f))
-d <- data.frame(y, x)
+d <- data.frame(y, x, f)
 plot(x, jitter(y))
 lines(x, exp(f))
 
@@ -180,4 +181,11 @@ lines(x, exp(f), col = "grey")
 f42 <- plotF(test4, int = "RW", addConst = T)
 lines(x, f, col = "grey") 
 
-dev.off()
+############################
+# passing formula-objects:
+############################
+f <- as.formula("y ~ tp(x, degree = 2)")
+(testForm <- amer(f, data = d, family = poisson))
+
+#dev.off()
+

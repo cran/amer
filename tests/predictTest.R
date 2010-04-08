@@ -1,8 +1,5 @@
 if(require(ggplot2)){
-
 	library(amer)
-	
-		
 	##########################
 	
 #tests : DGP
@@ -81,10 +78,10 @@ if(require(ggplot2)){
 	
 	
 #AMM with linear effects
-	(test4 <- amer(y ~ x1 + f  + tp(x2) + (x2|g), data = d4))
+	(test4 <- amer(y ~ x1 + tp(x2) + f   + (x2|g), data = d4))
 	pred4 <- predict(test4, newdata)
 	plot(pred4$truth3, pred4$fit)
-	ggplot(aes(x=x2, y=y3), data=pred3) + geom_point(aes(group=g, col=g)) + facet_wrap(~g)+
+	ggplot(aes(x=x2, y=y4), data=pred4) + geom_point(aes(group=g, col=g)) + facet_wrap(~g)+
 			geom_line(aes(x=x2, y=fit, group=g, col=g))
 	
 #AMM with by, allPen=F
@@ -98,7 +95,7 @@ if(require(ggplot2)){
 	(test6 <- amer(y ~ tp(x2, by=f, allPen=T) + (x2|g), data = d4))
 	pred6 <- predict(test6, newdata)
 	plot(pred6$truth3, pred6$fit)
-	ggplot(aes(x=x2, y=y3), data=pred5) + geom_point(aes(group=f, col=f)) + facet_wrap(~g)+
+	ggplot(aes(x=x2, y=y3), data=pred6) + geom_point(aes(group=f, col=f)) + facet_wrap(~g)+
 			geom_line(aes(x=x2, y=fit, group=f, col=f))
 	
 	
@@ -143,4 +140,14 @@ if(require(ggplot2)){
 	predLess <- predict(test2, newdata)
 	ggplot(aes(x=x2, y=y2), data=predLess) + geom_point(aes(group=g, col=g)) + facet_wrap(~g)+
 			geom_line(aes(x=x2, y=fit, group=g, col=g))
+	
+	
+# constant factor, missing response  
+	(test4 <- amer(y ~ tp(x2) + x1 + f   + (x2|g), data = d4))
+	predConst <- predict(test4, d4[d4$f==1, -1])
+	plot(predConst$fit, d4[d4$f==1, "y"])
+	mean(predConst$fit - d4[d4$f==1, "y"])
+
 }
+
+

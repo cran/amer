@@ -4,7 +4,8 @@
 # Author: fabians
 ###############################################################################
 try(detach(package:lme4))
-if (require(nlme) & require(mgcv)) {
+if(FALSE & require(nlme) & require(mgcv)) {
+#if(require(nlme) & require(mgcv)) {	
 	library(mgcv)
 	library(amer)
 	

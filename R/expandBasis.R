@@ -7,9 +7,9 @@ function(basis, by, varying, bySetToZero = T){
 	Z <- basis$Z
 	
 	
-	xName <- deparse(attr(basis, "call")$x)
+	xName <- safeDeparse(attr(basis, "call")$x)
 	if(!is.null(varying)){
-		xName <- paste(xName, "X", deparse(attr(basis, "call")$varying), sep="")
+		xName <- paste(xName, "X", safeDeparse(attr(basis, "call")$varying), sep="")
 		X <- cbind(varying, X * varying)
 		Z <- Z * varying
 	}	
@@ -18,7 +18,7 @@ function(basis, by, varying, bySetToZero = T){
 	if(!is.null(by)){
 		X.o <- X
 		Z.o <- Z
-		byName <- deparse(attr(basis, "call")$by)
+		byName <- safeDeparse(attr(basis, "call")$by)
 		if(!allPen){
 			basis$X <- basis$Z <- vector(mode="list", nlevels(by))
 			for(i in 1:nlevels(by)){
