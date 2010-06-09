@@ -14,8 +14,8 @@
 #'                         if FALSE, make design for separate curves for each by-level: separate smoothing parameters for every level of "by", unpenalized estimates for the coefficients associated with X
 #' @param varying numeric: if not NULL, a varying coefficient model is fit: f(x,varying) = f(x)*varying
 #' @param diag logical: force a diagonal covariance-matrix for the random effects for X if \code{allPen=TRUE}? 
-#' @param knots vector of knot locations (optional). Defaults quantile-based knots at the \eqn{(i+1)/(k+2)}-quantiles 
-#' 		  for \eqn{i=1,\dots,k}.
+#' @param knots vector of knot locations (optional). Defaults to quantile-based knots at the \eqn{i/(k+1-}degree)-quantiles 
+#' 		  for \eqn{i=1,\dots,k-}degree.
 #' @param centerscale numeric(2): center&scale x by these values if not NULL
 #' @param scaledknots boolean:	are knot locations given for the rescaled x-values?
 #' @return list with entries:
@@ -26,7 +26,7 @@
 #' @seealso \code{\link{tp}}
 tp <-
 function(x, degree=1, k = 15, by=NULL, allPen = FALSE, varying = NULL, diag=FALSE,
-		knots= quantile(x, probs = (2:(k - degree + 1))/(k - degree  + 3)), centerscale=NULL, scaledknots=FALSE)
+		knots= quantile(x, probs = (1:(k - degree))/(k - degree  + 1)), centerscale=NULL, scaledknots=FALSE)
 {
 	call <- as.list(expand.call())
 	

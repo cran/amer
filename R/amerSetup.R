@@ -1,7 +1,8 @@
 amerSetup <-
 function(formula, data, family, REML, control = list(), 
 		start, verbose, 
-#		subset, weights, 
+#		subset, 
+		weights, 
 #		na.action, offset, 
 		contrasts, 
 		basisGenerators, bySetToZero = T){

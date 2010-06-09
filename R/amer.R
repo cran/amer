@@ -7,13 +7,13 @@
 #' @param control a list of control parameters for \code{\link[lme4]{lmer}}
 #' @param start a named list of starting values for the parameters in the model. See \code{\link[lme4]{lmer}}.
 #' @param verbose logical scalar.  If \code{TRUE} verbose output is generated during the optimization of the parameter estimates.
-# @param subset see \code{\link[lme4]{lmer}}
-# @param weights see \code{\link[lme4]{lmer}}
-# @param na.action see \code{\link[lme4]{lmer}}
-# @param offset see \code{\link[lme4]{lmer}}
+#  @param subset see \code{\link[lme4]{lmer}}
+#'  @param weights see \code{\link[lme4]{lmer}}
+#  @param na.action see \code{\link[lme4]{lmer}}
+#  @param offset see \code{\link[lme4]{lmer}}
 #' @param contrasts see \code{\link[lme4]{lmer}}
 #' @param basisGenerators a character vector of names of functions that generate bases for function estimation in  a way lamer can use. See \code{\link{tp}} for an example. 
-#' @param ... further arguments passed to \code{\link[lme4]{lmer}}, e.g. \code{family}. 
+#' @param ... further arguments passed to \code{\link[lme4]{lmer}}. 
 #'
 #' @return An object of class \code{\link{amer-class}}.  
 #' @seealso \code{tests/optionsTests.r} and the vignette for examples 
@@ -22,7 +22,8 @@
 amer <-
 function(formula, data, family = NULL, REML = TRUE, control = list(), 
 		start = NULL, verbose = FALSE, 
-#		subset, weights, 
+#		subset, 
+		weights, 
 #		na.action, offset, 
 		contrasts = NULL, 
 		basisGenerators = c("tp","tpU","bsp"),...)

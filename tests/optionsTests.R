@@ -187,5 +187,13 @@ lines(x, f, col = "grey")
 f <- as.formula("y ~ tp(x, degree = 2)")
 (testForm <- amer(f, data = d, family = poisson))
 
+
+###########################
+# passing weights
+###########################
+d$w <- runif(nrow(d))
+(testW <- amer(f, data = d, family = poisson, weights =w))
+
+
 #dev.off()
 

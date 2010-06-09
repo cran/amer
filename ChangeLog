@@ -1,3 +1,8 @@
+0.6.7
+Jun 09 2010
+-added weights option
+
+
 0.6.6
 Apr 14 2010
 - fixed bugs in predict (no prediction if constant factors in newdata, knots not correctyly handled)

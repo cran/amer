@@ -255,8 +255,8 @@ that usually every matrix $\bm X_{u,s},\,s=1,\dots,S$ for the unpenalized part
 of the various smooth terms will contain an intercept column. These are dropped in order %%% REWRITE THIS!!
 to avoid a rank deficient design matrix $\bm{\tilde X}$. This also solves the
 identifiability issues common to additive models \cite[ch. 3.3]{Wood:2006} 
--- we estimate a global intercept and the smooth functions etc. then only parameterize deviations
-from it.
+-- in this parameterization, the smooth functions etc. represent
+deviations from a global intercept.
 
 \subsection{Variability Estimation}\label{VarEst} 
 The convenience functions \code{getF} and \code{plotF} to extract or plot

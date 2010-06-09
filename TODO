@@ -1,12 +1,14 @@
 Minor:
 
+subset/na.action/offset args
+
 print: do smooths and ranefs separately
 
 coef method
 
 varying coefficient models: ensure identifiability for f1(x1)*u + f2(x2)*u
 
-by-terms: check for/enforce treatment contasts
+by-terms: check for/enforce treatment contasts?
 
 Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, takes forever if by has many levels
 

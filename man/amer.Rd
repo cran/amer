@@ -1,8 +1,8 @@
 \name{amer}
 \alias{amer}
 \title{Fit a (generalized) additive mixed model using lmer...}
-\usage{amer(formula, data, family, REML=TRUE, control=list(), start,
-    verbose=FALSE, contrasts, basisGenerators=c("tp", "tpU",
+\usage{amer(formula, data, family=NULL, REML=TRUE, control=list(), start=NULL,
+    verbose=FALSE, weights, contrasts=NULL, basisGenerators=c("tp", "tpU",
     "bsp"), ...)}
 \description{Fit a (generalized) additive mixed model using lmer}
 \value{An object of class \code{\link{amer-class}}.}
@@ -15,6 +15,7 @@
 \item{control}{a list of control parameters for \code{\link[lme4]{lmer}}}
 \item{start}{a named list of starting values for the parameters in the model. See \code{\link[lme4]{lmer}}.}
 \item{verbose}{logical scalar.  If \code{TRUE} verbose output is generated during the optimization of the parameter estimates.}
+\item{weights}{see \code{\link[lme4]{lmer}}}
 \item{contrasts}{see \code{\link[lme4]{lmer}}}
 \item{basisGenerators}{a character vector of names of functions that generate bases for function estimation in  a way lamer can use. See \code{\link{tp}} for an example.}
-\item{...}{further arguments passed to \code{\link[lme4]{lmer}}, e.g. \code{family}.}}
+\item{...}{further arguments passed to \code{\link[lme4]{lmer}}.}}

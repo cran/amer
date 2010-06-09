@@ -2,8 +2,8 @@
 \alias{tp}
 \title{Generate a truncated power basis for penalized spline smoothing.}
 \usage{tp(x, degree=1, k=15, by=NULL, allPen=FALSE, varying=NULL, diag=FALSE,
-    knots=quantile(x, probs = (2:(k - degree + 1))/(k - degree
-    + 3)), centerscale=NULL, scaledknots=FALSE)}
+    knots=quantile(x, probs = (1:(k - degree))/(k - degree  + 1)), 
+    centerscale=NULL, scaledknots=FALSE)}
 \description{Generate a truncated power basis for penalized spline smoothing.}
 \details{Truncated power bases have \code{degree} unpenalized basis functions, namely \eqn{x^1,\dots, x^{degree}} and \eqn{k-}\code{degree} penalized basis functions that contain the positive part \eqn{(x-\kappa_j)^{degree}} for knots \eqn{\kappa_j, j=1,dots,k-}\code{degree}.
 This function can be used as a reference when implementing other \code{basisGenerators} that can be used for \code{\link{amer}}-fits. 
@@ -23,7 +23,7 @@ See also section 4.4 in the vignette for an example on how to write your own bas
 if FALSE, make design for separate curves for each by-level: separate smoothing parameters for every level of "by", unpenalized estimates for the coefficients associated with X}
 \item{varying}{numeric: if not NULL, a varying coefficient model is fit: f(x,varying) = f(x)*varying}
 \item{diag}{logical: force a diagonal covariance-matrix for the random effects for X if \code{allPen=TRUE}?}
-\item{knots}{vector of knot locations (optional). Defaults to quantile-based knots at the \eqn{(i+1)/(k+3)}-quantiles 
-for \eqn{i=1,\dots,k}.}
+\item{knots}{vector of knot locations (optional). Defaults to quantile-based knots at the \eqn{i/(k+1-}degree)-quantiles 
+		  for \eqn{i=1,\dots,k-}degree.}
 \item{centerscale}{numeric(2): center&scale x by these values if not NULL}
 \item{scaledknots}{boolean:	are knot locations given for the rescaled x-values?}}
