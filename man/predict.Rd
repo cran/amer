@@ -3,14 +3,14 @@
 \alias{predict,amer-method}
 \title{Get predicted/fitted values for new data}
 \usage{
-\S4method{predict}{amer}(object, newdata = object@frame, type=c("response", "linpred", "terms"), ...)
+\S4method{predict}{amer}(object, newdata, type=c("response", "linpred", "terms"), ...)
 }
 \arguments{
   \item{object}{a fitted model object inheriting from
     class \code{\linkS4class{amer}}.
   }
   \item{newdata}{a \code{data.frame} containing observations with all
-   variables used in the original fit for which predicted/fitted values should be computed. Defaults to original data from \code{object}.}
+   variables used in the original fit for which predicted/fitted values should be computed.}
   \item{type}{see Value}
   \item{\dots}{Additional, optional arguments for some methods.  At
     present none are used.}

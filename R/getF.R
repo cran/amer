@@ -45,7 +45,7 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 		#FIXME: these are sometimes HUGE compared to RW, with strange shapes and/or not overlapping the posterior means/modes 
 		#		- cannot be just because variability of variance estimates enters here but not in RW (?)
 		#		- does mcmcsamp break for data that's not really grouped?
-		warning("mcmcsamp() may not work reliably yet -- check the traceplots!.")
+		warning("mcmcsamp() may not work reliably yet -- check the traceplots!")
 		cat("starting", sims,"MCMC iterations for posterior intervals:\n")
 		mcmc <- mcmcsamp(object, n=sims, saveb=T)
 		cat("		... done.\n")
@@ -163,7 +163,8 @@ getF <- function (object, which, n=100, newdata=NULL, interval = c("NONE", "MCMC
 			nlvl <- length(lvls)
 			base0 <- base
 			#where are the random effects for the penalized spline functions:
-			indZ <- lme4:::reinds(object@Gp)[[attr(terms[[i]],"indGrp")[[1]][1]]] ##can use the first because the spline will have more levels (grps*(p-d)) than the grouping factor (grps) 
+			##use the first because the spline will have more levels (grps*(p-d)) than the grouping factor (grps)
+			indZ <- lme4:::reinds(object@Gp)[[ attr(terms[[i]],"indGrp") [[1]] [1] ]]  
 			#how many penalized spline functions per level of by
 			dimOneZ <- length(indZ)/length(lvls)
 			useZ <- 1:dimOneZ

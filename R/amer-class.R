@@ -79,7 +79,7 @@ setMethod("summary", signature(object = "amer"),
 	## if newdata contains additional levels of grouping factors not present in the original model, 
 	##	these are assigned random effects of zero.
 	setMethod("predict", signature(object = "amer"),
-			function(object, newdata = object@frame, type=c("response", "linpred", "terms"), ...)
+			function(object, newdata, type=c("response", "linpred", "terms"), ...)
 			{
 				
 				type <- match.arg(type)
@@ -152,7 +152,7 @@ setMethod("summary", signature(object = "amer"),
 								##FIXME: this works only if there are either: 
 								## - levels of grouping in newdata that are not in orig data
 								## - levels of grouping in orig data that are not in newdata
-								## - neither, but NOT for both...
+								## - neither,  but NOT for both...
 								tmp <- rep(0, nrow(newdata))
 								tmp[useZRows] <- as.numeric(t(newObj$FL$trms[[thisInd]]$Zt)[useZRows, useZCols, drop=FALSE] %*% 
 												unlist(ranef(object)[[thisName]])[useBCols, drop=FALSE])

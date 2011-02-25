@@ -1,3 +1,15 @@
+0.6.9
+Mar 23 2011
+-no import of nlme's BIC method
+
+0.6.8
+Nov 19 2010
+-added offset arg to amer, rm ...
+
+
+Sep 10
+- removed default for predict method because lmer sometimes permutes the rows in the model frame.
+
 0.6.7
 Jun 09 2010
 -added weights option
@@ -5,7 +17,7 @@ Jun 09 2010
 
 0.6.6
 Apr 14 2010
-- fixed bugs in predict (no prediction if constant factors in newdata, knots not correctyly handled)
+- fixed bugs in predict (no prediction if constant factors in newdata, knots not correctly handled)
 - added safeDeparse
 
 0.6.5 (=0.6.4)

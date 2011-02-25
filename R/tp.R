@@ -4,7 +4,7 @@
 #' This function can be used as a reference when implementing other \code{basisGenerators} that can be used for \code{\link{amer}}-fits. 
 #' All such functions need to return a list of at least X (unpenalized basis functions, a matrix with zero columns if there are none of those), and Z (penalized basis functions)
 #' that has a \code{call}-attribute with the expanded call returned by \code{\link{expand.call}()}. All such functions need to have at least arguments \code{x, by, allPen, diag} and \code{varying}.
-#' See also section 4.4 in the vignette for an example on how to write your own basis-generating functions.
+#' Also see the vignette for an example on how to write your own basis-generating functions.
 #'
 #' @param x covariate for the smooth function
 #' @param degree integer: degree of truncated polynomials (0: piecewise constant, 1: piecewise linear etc..)

@@ -1,0 +1,36 @@
+chunk: graphSettings
+chunkprefix: GAMMsUsingLME4-graphSettings
+fig:
+cacheDB:
+time: 2010-11-02 10:12:48
+
+chunk: loadLibs
+chunkprefix: GAMMsUsingLME4-loadLibs
+fig:
+cacheDB:
+time: 2010-11-02 10:12:48
+
+chunk: unionFit
+chunkprefix: GAMMsUsingLME4-unionFit
+fig:
+cacheDB:
+time: 2010-11-02 10:13:02
+
+chunk: printUnionFit
+chunkprefix: GAMMsUsingLME4-printUnionFit
+fig:
+cacheDB:
+time: 2010-11-02 10:13:03
+
+chunk: unionPlot
+chunkprefix: GAMMsUsingLME4-unionPlot
+fig: GAMMsUsingLME4-unionPlot.tikz
+cacheDB:
+time: 2010-11-02 10:13:03
+
+chunk: dogPlot
+chunkprefix: GAMMsUsingLME4-dogPlot
+fig: GAMMsUsingLME4-dogPlot.tikz
+cacheDB:
+time: 2010-11-02 10:13:15
+

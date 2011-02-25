@@ -1,5 +1,3 @@
-
-importFrom(nlme, BIC)
 importFrom(stats, predict)
 import(Matrix)
 import(lme4)

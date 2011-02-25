@@ -55,12 +55,12 @@ tpU <-
 	
 	#design for unpenalised part: global polynomial trends (no intercept)
 	if(degree>0){	
-		X <- outer(x, 1:degree, "^")#poly(x, degree)
+		X <- outer(drop(x), 1:degree, "^")#poly(x, degree)
 	} else{
 		X <- matrix(nrow=length(x), ncol=0)
 	}	
 	#design for penalised part: 
-	Z <- outer(x,knots,"-")^degree*outer(x,knots,">")
+	Z <- outer(drop(x),knots,"-")^degree*outer(drop(x),knots,">")
 	
 	# adapt design for unpen option
 	if(unpen != degree){

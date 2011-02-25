@@ -1,3 +1,5 @@
+
+
 Minor:
 
 subset/na.action/offset args
@@ -10,7 +12,8 @@ varying coefficient models: ensure identifiability for f1(x1)*u + f2(x2)*u
 
 by-terms: check for/enforce treatment contasts?
 
-Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, takes forever if by has many levels
+Done(?): expandBasis: replace for-loops (and list str) with sth moore efficient, 
+	takes forever if by has many levels
 
 change formula evaluation etc to sth like used in mboost/lm (Manuel?)
 
@@ -19,6 +22,8 @@ add general GMRF-constructor (based on graph/adjacency matrix?)
 add Jan's ordinal predictor penalization (/Misc/linearDummies.r)
 
 put all info on basisGenerators in a single helpfile?
+
+reparameterizeDesign: use chol for full rank penalties to preserve sparsity
 
 ################
 
@@ -29,6 +34,8 @@ MAJOR:
 	getF/plotF, 
 
 class Term with Subclasses Smooth(1D/2D), Linear, Random (Spatial) --> predict, plot methods
+(S4 or proto?)amer
 
-make compatible to lme4a-branch
+make compatible to lme4a-branch (lo prio until DB gets active again, stops fiddling with Rcpp)
+methods for dense RanEf-Designs/ backfitting?
    

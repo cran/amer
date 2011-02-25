@@ -27,19 +27,19 @@ test01 <- amer(y ~ tp(x, degree = 1), data = d)
 f01 <- plotF(test01, n = 200, interval = "RW")
 lines(x, f, col = "grey")
 
-f01.MCMC <- getF(test01, n = 50, interval = "MCMC")
-print(xyplot(attr(f01.MCMC, "mcmc")))
-
-#sanity checks for MCMC:
-f01.MCMCData <- as.data.frame(attr(f01.MCMC, "mcmc"))
-unlist(c(fixef(test01), test01@ST, lme4:::sigma(test01)))
-apply(f01.MCMCData, 2, quantile, probs = c(0.1, 0.25, 
-				0.5, 0.75, 0.9), na.rm = T)
-(bNormsObs <- unlist(lapply(ranef(test01), function(x) sqrt(sum(x^2)))))
-bNormsMCMC <- apply(attr(f01.MCMC, "mcmc")@ranef, 
-		2, function(x) return(sqrt(sum(x[1:14]^2, na.rm = T))))
-quantile(bNormsMCMC, probs = c(0.1, 0.25, 0.5, 0.75, 
-				0.9), na.rm = T)
+#f01.MCMC <- getF(test01, n = 50, interval = "MCMC")
+#print(xyplot(attr(f01.MCMC, "mcmc")))
+#
+##sanity checks for MCMC:
+#f01.MCMCData <- as.data.frame(attr(f01.MCMC, "mcmc"))
+#unlist(c(fixef(test01), test01@ST, lme4:::sigma(test01)))
+#apply(f01.MCMCData, 2, quantile, probs = c(0.1, 0.25, 
+#				0.5, 0.75, 0.9), na.rm = T)
+#(bNormsObs <- unlist(lapply(ranef(test01), function(x) sqrt(sum(x^2)))))
+#bNormsMCMC <- apply(attr(f01.MCMC, "mcmc")@ranef, 
+#		2, function(x) return(sqrt(sum(x[1:14]^2, na.rm = T))))
+#quantile(bNormsMCMC, probs = c(0.1, 0.25, 0.5, 0.75, 
+#				0.9), na.rm = T)
 
 test02 <- amer(y ~ tp(x, degree = 2), data = d)
 f02 <- plotF(test02)
@@ -64,17 +64,17 @@ d <- data.frame(y, x, z, g1)
 							degree = 2), data = d))
 f1 <- plotF(test1, interval = "RW")
 points(d$x, f, col = g1, pch = 19)
-f11 <- getF(test1, newdata = d[order(d$x), ], interval = "MCMC")
-lines(f11[[1]][[1]]$x, f11[[1]][[1]]$fhat, col = 3)
-lines(f11[[1]][[1]]$x, f11[[1]][[1]]$lo, col = 3, 
-		lty = 3)
-lines(f11[[1]][[1]]$x, f11[[1]][[1]]$hi, col = 3, 
-		lty = 3)
-lines(f11[[1]][[2]]$x, f11[[1]][[2]]$fhat, col = 4)
-lines(f11[[1]][[2]]$x, f11[[1]][[2]]$lo, col = 4, 
-		lty = 3)
-lines(f11[[1]][[2]]$x, f11[[1]][[2]]$hi, col = 4, 
-		lty = 3)
+#f11 <- getF(test1, newdata = d[order(d$x), ], interval = "MCMC")
+#lines(f11[[1]][[1]]$x, f11[[1]][[1]]$fhat, col = 3)
+#lines(f11[[1]][[1]]$x, f11[[1]][[1]]$lo, col = 3, 
+#		lty = 3)
+#lines(f11[[1]][[1]]$x, f11[[1]][[1]]$hi, col = 3, 
+#		lty = 3)
+#lines(f11[[1]][[2]]$x, f11[[1]][[2]]$fhat, col = 4)
+#lines(f11[[1]][[2]]$x, f11[[1]][[2]]$lo, col = 4, 
+#		lty = 3)
+#lines(f11[[1]][[2]]$x, f11[[1]][[2]]$hi, col = 4, 
+#		lty = 3)
 
 (test12 <- amer(y ~ tp(x, by = g1, k = 25, degree = 2) + 
 							tp(z, by = g1, k = 10, degree = 1), data = d))
@@ -151,7 +151,7 @@ d <- data.frame(y, x, z)
 
 (test3 <- amer(y ~ tp(x, k = 5, varying = z), data = d))
 f3 <- plotF(test3, int = "RW")
-f3 <- plotF(test3, int = "MCMC")
+#f3 <- plotF(test3, int = "MCMC")
 lines(x, f1, col = 2)
 f32 <- getF(test3, newdata = d, int = "RW")
 range(f - fitted(test3))
@@ -193,6 +193,34 @@ f <- as.formula("y ~ tp(x, degree = 2)")
 ###########################
 d$w <- runif(nrow(d))
 (testW <- amer(f, data = d, family = poisson, weights =w))
+
+
+###########################
+# passing offset
+###########################
+set.seed(12434)
+n <- 400
+offset <- 1:n 
+x <- runif(n, -pi, pi)
+y <- offset + 4*sin(x) 
+offsetp <- exp((offset - 50)/30)
+yp <- round(offsetp * exp(3*sin(x)))
+d <- data.frame(x=x, y=y, yp=yp, offset=offset, offsetp=offsetp)
+
+(testOffset <- amer(y ~ tp(x, degree = 2), data = d, offset = offset))
+plotF(testOffset)
+
+(testOffsetP <- amer(yp ~ tp(x, degree = 2), data = d, offset = log(offsetp), family=poisson))
+plotF(testOffsetP)
+
+
+
+
+
+
+
+
+
 
 
 #dev.off()

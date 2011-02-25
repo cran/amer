@@ -5,7 +5,7 @@
 #' which only makes sense if the intercept column is actually in the column space of X, i.e. constant functions are in the nullspace of the penalty. 
 #' 
 #' @param B matrix containing the basis functions
-#' @param K penalty matrix (i.e. the penalty term for the fitted spline is the quadratic form of K and the spline coefficients)
+#' @param K penalty matrix (i.e. the penalty term for the function is the quadratic form of K and the spline coefficients)
 #' @param tol eigenvalues smaller than tol are considered zero
 #' @return list with entries:
 #'			\code{"X"}: \code{n x (p-1)} design matrix for unpenalized part (without intercept) 

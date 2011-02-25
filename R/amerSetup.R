@@ -3,7 +3,8 @@ function(formula, data, family, REML, control = list(),
 		start, verbose, 
 #		subset, 
 		weights, 
-#		na.action, offset, 
+#		na.action, 
+		offset, 
 		contrasts, 
 		basisGenerators, bySetToZero = T){
 #set up unfitted amer-object, similar to lme4:::lmerFrames:
