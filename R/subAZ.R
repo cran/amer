@@ -10,7 +10,7 @@ function(m, fct)
 			dimnames(m$FL$trms[[ind]]$ST) <- list(safeDeparse(attr(fct[[i]], "call")[[1]]), safeDeparse(attr(fct[[i]], "call")[[1]])) 
 		} else {
 			for(j in 1:length(fct[[i]]$Z)){
-				ind <- grep(paste(names(fct[i]),names(fct[[i]]$Z)[j],sep='.'), names(m$FL$fl)[attr(m$FL$fl, "assign")])
+				ind <- grep(paste("^",paste(names(fct[i]),names(fct[[i]]$Z)[j],sep='.'), "$", sep=""), names(m$FL$fl)[attr(m$FL$fl, "assign")])
 				Zt <- as(t(fct[[i]]$Z[[j]]), "sparseMatrix")
 				m$FL$trms[[ind]]$A <- m$FL$trms[[ind]]$Zt <- Zt
 				dimnames(m$FL$trms[[ind]]$ST) <- list(safeDeparse(attr(fct[[i]], "call")[[1]]), safeDeparse(attr(fct[[i]], "call")[[1]]))

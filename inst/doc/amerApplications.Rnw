@@ -1,0 +1,199 @@
+\documentclass[12pt]{article}
+\usepackage[OT1]{fontenc}
+
+% instead of \usepackage{Sweave}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{graphicx,ae,fancyvrb} 
+\IfFileExists{upquote.sty}{\RequirePackage{upquote}}{} 
+\setkeys{Gin}{width=0.8\textwidth} 
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\vspace{-1ex}},fontshape=sl,
+  fontfamily=courier,fontseries=b, fontsize=\footnotesize}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\vspace{-1ex}},fontfamily=courier,fontseries=b,%
+  fontsize=\footnotesize}
+\newenvironment{Schunk}{}{} 
+\setkeys{Gin}{width=\textwidth}
+
+\parskip 9pt
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\newcommand{\code}[1]{\texttt{\small{#1}}}
+			
+		
+\SweaveOpts{prefix.string=amerApplications,eps=FALSE,pdf=TRUE}
+\setkeys{Gin}{width=\textwidth}
+\title{amer: Some application examples}			
+
+\begin{document}
+
+\SweaveOpts{engine=R} 
+
+%\VignetteIndexEntry{Some amer application examples} 
+%\VignetteDepends{mlmRev, SASmixed} 
+%\VignettePackage{amer} 
+
+
+% setwd("~/RegularBayes/Workspace/amer/amer/inst/doc")
+% Sweave("amerApplications.Rnw")
+% tools::texi2dvi("amerApplications.tex", pdf=TRUE)
+
+<<prelim, echo=F>>=
+rm(list=ls())
+options(width=60, continuation="   ")
+library(amer)
+library(mlmRev)
+library(SASmixed)
+@
+
+\title{ \textsf{amer}: Some application examples}
+\author{Fabian Scheipl\footnote{\texttt{fabian.scheipl@stat.uni-muenchen.de}} \\ LMU M\"unchen}
+
+\maketitle
+
+\begin{abstract}
+The following gives some examples of additive mixed models and compares them to linear mixed models on well-known datasets, 
+hopefully demonstrating the utility of penalized spline smoothing for this type of problems.    
+\end{abstract}
+\newpage
+
+\section{\texttt{Contraception} data: A Generalized Additive Mixed Model}
+
+Conventional GLMM fits, which assume that age has a linear influence on the log-odds of contraceptive use:\\
+
+Random intercept model:
+<<contra_fit1>>=
+print(contra1 <- lmer(use ~ urban + age + livch + (1|district), Contraception, 
+				family = binomial), cor=F)
+@
+
+Random slope model:
+<<contra_fit2>>=
+print(contra2 <- lmer(use ~ urban + age + livch + (urban|district), Contraception,
+				family = binomial), cor=F)
+@
+
+Let's try a nonlinear effect for age:
+<<contra_fit3>>=
+print(contra3 <- amer(use ~ urban + bsp(age) + livch + (urban|district), Contraception, family = binomial), cor=F)
+@
+The estimated variance for the spline coefficients indicates some nonlinearity.\\
+
+Finally, let's allow the effect of age to be different for urban and rural areas and compare the 4 models:
+<<contra_fit4>>=
+print(contra4 <- amer(use ~ urban + bsp(age, by=urban) + livch + (urban|district), Contraception, family = binomial), cor=F)
+@
+<<contra_anova>>=
+print(anova(contra1 ,contra2, contra3, contra4))
+@
+Note the large improvement for model \code{contra3} when we allow a nonlinear influence of age.\\
+
+\newpage 
+Let's look at the estimated functions:
+\begin{figure}[!ht] \centering
+<<contra_plot3, echo=F, fig=T, width=6,height=3>>=                   
+	plotF(contra3)             
+@                    
+\caption{Estimated influence of age on contraception use from \code{contra3}.}                    
+\end{figure}
+\begin{figure}[!ht] \centering
+<<contra_plot4, echo=F, fig=T, width=6,height=3>>=                   
+	plotF(contra4)             
+@                    
+\caption{Estimated influence of age on contraception use by rural vs. urban from \code{contra4}. 
+The difference seems to be captured mostly by the dummy for \code{urbanY}, the shape of the effect is about the same.}                    
+\end{figure}
+\clearpage
+
+
+\section{\texttt{Chem97} data: An AMM for large data}
+<<chem_fit1>>=
+ print(chem1 <- lmer(score ~ gcsecnt + (1 | school) + (1 | lea), Chem97), cor=F)
+@
+Maybe there's no \emph{linear} relationship between GCSE score and Chemistry A-levels? We can use a spline to find out:
+<<chem_fit2>>=	
+print(chem2 <- amer(score ~ bsp(gcsecnt) + (1 | school) + (1 | lea), Chem97), cor=F)
+print(anova(chem1, chem2))
+@
+The improvement in the fit is pretty big!\\
+
+What does the relationship between GCSE score and Chemistry A-levels look like?
+\begin{figure}[!ht] \centering
+<<chem_plot, echo=F, fig=T, width=6,height=6>>=                   
+plotF(chem2)
+@                   
+\caption{That large rise on the lower end of the GCSE scale is weird and shouldn't be interpreted (consider the width of the pointwise CI's!),
+but what does make a lot of sense is the saturation effect we see: 
+The slope flattens for below average GCSEs and also, a little, for very high GCSEs. }                    
+\end{figure}
+\clearpage
+
+\section{\texttt{Oxboys}: An AMM with subject-wise smooth trends}
+
+The LMM framework struggles with growth data like this: We have to include fairly arbitrary polynomial terms for both the global
+trend and the subject-wise trends to fit the data well:
+<<oxboys_fit1>>=
+print(oxboys1 <- lmer(height ~ poly(age, 4) + (poly(age, 2) | Subject), data=Oxboys), cor=F)
+@
+In an AMM, we simply include a global smooth term for \code{age} and subject-wise smooth deviations from it: 
+<<oxboys_fit2>>=
+print(oxboys2 <- amer(height ~ tp(age, k=12) + tp(age, k=4, by=Subject, allPen=T), data=Oxboys), cor=F)
+print(anova(oxboys1, oxboys2))
+@
+This yields a slightly better fit with a more parsimonious model (Well, depending on how you count the degrees of freedom.
+Let's agree to not go there...).
+%<<oxboys_plotPrep, echo=F>>=
+%	OxFits <- rbind(cbind(Oxboys,type="y"), cbind(Oxboys,type="LMM"), cbind(Oxboys,type="AMM"))
+%	OxFits$height <- c(Oxboys$height, fitted(oxboys1), fitted(oxboys2)) 
+%@
+%<<oxboys_plotFits, echo=F, fig=T, width=6,height=6>>=
+%	print(ggplot(aes(x=age, y=height, col=type), data=OxFits) + geom_line() + facet_wrap(~Subject))	
+%@   
+
+\section{\texttt{ScotsSec}: An AMM with a nice interpretation}
+<<scots>>=
+ScotsSec$social <- factor(ScotsSec$social)
+print(scots1 <- lmer(attain ~ sex  + (1 | primary) + (1 |second), ScotsSec), cor=F)
+print(scots2 <- lmer(attain ~ sex  + verbal + (1 | primary) + (1 |second), ScotsSec), cor=F)
+print(scots3 <- lmer(attain ~ sex  + social  + verbal +  (1 | primary) + (1 |second), ScotsSec), cor=F)
+@
+Ok, so the \code{verbal} score has huge predictive value for this standardized test -- is its effect really linear, though?
+<<scots2>>=
+print(scots4 <- amer(attain ~ sex  + social + bsp(verbal) + (1 | primary) + (1 |second), ScotsSec), cor=F)
+print(scots5 <- amer(attain ~ sex  + social + bsp(verbal, by=social) + (1 | primary) + (1 |second), ScotsSec), cor=F)
+
+print(anova(scots1, scots2, scots3, scots4, scots5))
+@
+Doesn't seem so, the AMM fits much better, since it's able to model the saturation effect of above-average \code{attain} scores, as shown in the following figure.
+The improvement of the fit by letting the effect of  \code{attain} vary by \code{social} class (i.e. \code{scots5}) is small.
+
+\begin{figure}[!htbp] \centering
+<<scotsSecPlot, echo=F, fig=T, width=8,height=8>>=                   
+plotF(scots4)             
+@                    
+\caption{Effect of \code{verbal} on \code{attain} as estimated in model \code{scots4}: If you're really good verbally, 
+it doesn't seem to make much of a difference whether you are in the top 5 \% (above 20 points) or in the top 1 \% (above 30) 
+- your expected \code{attain} score will be about the same. Differences in the verbal test scores have a much larger impact for average students.}                    
+\end{figure}
+
+%
+%<<ScotsSecDiag, echo=FALSE>>=
+%#	diagData <- rbind(data.frame(attain=ScotsSec$attain, verbal=ScotsSec$verbal, model="scots3", resid=resid(scots3), fit=fitted(scots3)),
+%#			data.frame(attain=ScotsSec$attain, verbal=ScotsSec$verbal, model="scots4", resid=resid(scots4), fit=fitted(scots4)),
+%#			data.frame(attain=ScotsSec$attain, verbal=ScotsSec$verbal, model="scots5", resid=resid(scots5), fit=fitted(scots5)))
+%@
+%
+%\begin{figure}[!htbp] \centering
+%<<scotsSecDiagPlot, echo=F, fig=T, width=8,height=8>>=                   
+%#	ggplot(diagData, aes(attain, resid, colour=model)) + geom_point(alpha=.1) + geom_smooth() + geom_hline(yintercept=0)  + theme_bw()             
+%@                    
+%\caption{\label{}}                    
+%\end{figure}
+
+
+
+\clearpage
+
+\end{document}

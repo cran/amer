@@ -1,3 +1,8 @@
+0.6.10
+Apr 3 2011
+- fixed grep-calls in indsF, subAZ for factors with numeric levels (thanks, Matthew Finkbeiner)
+- added applications vignette
+
 0.6.9
 Mar 23 2011
 -no import of nlme's BIC method

@@ -2,7 +2,7 @@
 
 Minor:
 
-subset/na.action/offset args
+subset/na.action args
 
 print: do smooths and ranefs separately
 

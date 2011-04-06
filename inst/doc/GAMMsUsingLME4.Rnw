@@ -129,13 +129,19 @@ palette(clrs)
 #sourceDir("~/RegularBayes/Workspace/amer/amer/R")
 library(amer)
 @
+% setwd("~/RegularBayes/Workspace/amer/amer/inst/doc")
+% Sweave("GAMMsUsingLME4.Rnw")
+% tools::texi2dvi("GAMMsUsingLME4.tex", pdf=TRUE)
 
-%\VignetteIndexEntry{amer - GAMMs with lme4}
 
 \begin{document}
 
+%\VignetteIndexEntry{amer - GAMMs with lme4} \\
+%\VignettePackage{amer} \\
+\SweaveOpts{prefix.string=GAMMSUsingLME4,eps=FALSE,pdf=TRUE}
+
 \title{ \textsf{amer}: Using \textsf{lme4} to fit Generalized Additive Mixed Models}
-\author{Fabian Scheipl\footnote{\texttt{fabian.scheipl@stat.uni-muenchen.de}} \\ LMU München}
+\author{Fabian Scheipl\footnote{\texttt{fabian.scheipl@stat.uni-muenchen.de}} \\ LMU M\"unchen}
 
 \maketitle
 

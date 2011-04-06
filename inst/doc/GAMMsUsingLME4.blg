@@ -1,3 +1,45 @@
-This is BibTeX, Version 0.99cThe top-level auxiliary file: GAMMsUsingLME4.aux
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: GAMMsUsingLME4.aux
 The style file: plainnat.bst
 Database file #1: amer.bib
+You've used 10 entries,
+            2773 wiz_defined-function locations,
+            653 strings with 6077 characters,
+and the built_in function-call counts, 3677 in all, are:
+= -- 325
+> -- 184
+< -- 8
++ -- 66
+- -- 54
+* -- 272
+:= -- 591
+add.period$ -- 32
+call.type$ -- 10
+change.case$ -- 41
+chr.to.int$ -- 8
+cite$ -- 20
+duplicate$ -- 189
+empty$ -- 311
+format.name$ -- 72
+if$ -- 747
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 9
+newline$ -- 60
+num.names$ -- 40
+pop$ -- 92
+preamble$ -- 1
+purify$ -- 38
+quote$ -- 0
+skip$ -- 137
+stack$ -- 0
+substring$ -- 83
+swap$ -- 17
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 95
+warning$ -- 0
+while$ -- 36
+width$ -- 0
+write$ -- 135

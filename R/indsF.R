@@ -37,7 +37,7 @@ function(m, fct, fctterm){
 			attr(fctterm[[i]], "indUnpen") <- vector(mode="list", length=nlevels(by))
 			attr(fctterm[[i]], "indConst") <- vector(mode="list", length=nlevels(by))
 			for(j in 1:nlevels(by)){
-				attr(fctterm[[i]], "indGrp")[[j]] <- grep(paste(names(fct)[i],".",names(fct[[i]]$Z)[j],sep=""), colnames(m@flist))
+				attr(fctterm[[i]], "indGrp")[[j]] <- grep(paste("^",paste(names(fct)[i],".",names(fct[[i]]$Z)[j],sep=""), "$", sep=""), colnames(m@flist))
 				attr(fctterm[[i]], "indPen")[[j]] <- ranefinds[[attr(fctterm[[i]], "indGrp")[[j]]]]
 				if( ncol(fct[[i]]$X[[j]]) == 0){
 					attr(fctterm[[i]], "indUnpen")[[j]] <-	 0
